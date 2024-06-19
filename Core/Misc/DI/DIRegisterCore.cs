@@ -1,5 +1,4 @@
-﻿using Core.Misc.EF.Manager;
-using Core.Model.Sys;
+﻿using Core.Model.Sys;
 using Core.ViewModel.Common;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +14,10 @@ namespace Core.Misc.DI
             RegisterView(services);
             return services;
         }
-        protected virtual void RegisterMisc(IServiceCollection services) { }
+        protected virtual void RegisterMisc(IServiceCollection services)
+        {
+
+        }
         protected virtual void RegisterModel(IServiceCollection services)
         {
             services

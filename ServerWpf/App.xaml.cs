@@ -1,5 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using Core.Misc.DI;
+using ServerWpf.Misc.DI;
 using System.Windows;
 
 namespace ServerWpf
@@ -9,6 +9,9 @@ namespace ServerWpf
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            DIService.Register(new DIRegister());
+        }
     }
-
 }

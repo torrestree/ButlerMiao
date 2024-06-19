@@ -12,9 +12,9 @@ namespace CoreServer.Misc.DI
             base.RegisterMisc(services);
             services
                 .AddSingleton<ManagerContextConfig>()
-                .AddDbContext<ManagerContext>()
+                .AddDbContext<ManagerContext>(ServiceLifetime.Transient)
                 .AddScoped<SetContextConfig>()
-                .AddDbContext<SetContext>()
+                .AddDbContext<SetContext>(ServiceLifetime.Transient)
                 ;
         }
     }
