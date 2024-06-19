@@ -28,7 +28,7 @@ namespace Core.Abstract.Model
         }
 
         private ObservableCollection<TChild> children = [];
-        public ObservableCollection<TChild> Children
+        public virtual ObservableCollection<TChild> Children
         {
             get => children;
             set => SetProperty(ref children, value);

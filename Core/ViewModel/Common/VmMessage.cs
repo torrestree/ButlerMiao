@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.Misc;
+using Core.Misc.DI;
+using Core.Misc.EA;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 namespace Core.ViewModel.Common
@@ -138,71 +140,90 @@ namespace Core.ViewModel.Common
 
         private Awaiter<bool?> MessageAwaiter { get; set; } = null!;
 
-        public VmMessage(IExceptionAnalyzer exceptionAnalyzer)
+        public VmMessage()
         {
-            ExceptionAnalyzer = exceptionAnalyzer;
+            ExceptionAnalyzer = DIService.ServiceProvider.GetRequiredService<IExceptionAnalyzer>();
             CmdYes = new(() => MessageAwaiter.Continue(true));
             CmdNo = new(() => MessageAwaiter.Continue(false));
             CmdOk = new(() => MessageAwaiter.Continue(true));
             CmdCancel = new(() => MessageAwaiter.Continue(null));
         }
 
-        public async Task ShowWaiting(string title, string content)
+        public Task ShowWaiting(string content, string title = "等待")
         {
-            MessageType = MessageTypes.Waiting;
-            await Show(title, content);
+            return Task.Run(() =>
+            {
+                MessageType = MessageTypes.Waiting;
+                Show(title, content);
+            });
         }
-        public async Task ShowProgress(string title, string content, float progressMax)
+        public Task CloseWaiting()
         {
-            MessageType = MessageTypes.Progress;
-            ProgressMax = progressMax;
-            Progress = 0;
-            await Show(title, content);
+            return Task.Run(() => IsVisible = false);
         }
-        public async Task ShowInfo(string title, string content)
+        public Task ShowProgress(string content, float progressMax, string title = "等待")
+        {
+            return Task.Run(() =>
+            {
+                MessageType = MessageTypes.Progress;
+                ProgressMax = progressMax;
+                Progress = 0;
+                Show(title, content);
+            });
+        }
+        public Task CloseProgress()
+        {
+            return Task.Run(() => IsVisible = false);
+        }
+
+        public async Task ShowInfo(string content, string title = "消息")
         {
             MessageType = MessageTypes.Info;
-            await Show(title, content);
+            await ShowAsync(title, content);
         }
-        public async Task ShowSuccess(string title, string content)
+        public async Task ShowSuccess(string content, string title = "成功")
         {
             MessageType = MessageTypes.Success;
-            await Show(title, content);
+            await ShowAsync(title, content);
         }
-        public async Task ShowWarning(string title, string content)
+        public async Task ShowWarning(string content, string title = "警告")
         {
             MessageType = MessageTypes.Warning;
-            await Show(title, content);
+            await ShowAsync(title, content);
         }
-        public async Task ShowFailure(string title, string content)
+        public async Task ShowFailure(string content, string title = "失败")
         {
             MessageType = MessageTypes.Failure;
-            await Show(title, content);
+            await ShowAsync(title, content);
         }
-        public async Task ShowError(string title, Exception ex)
+        public async Task ShowError(Exception ex, string title = "错误")
         {
             MessageType = MessageTypes.Error;
-            await Show(title, ExceptionAnalyzer.Analyze(ex));
+            await ShowAsync(title, ExceptionAnalyzer.Analyze(ex));
         }
-        public async Task<bool> ShowOkCancel(string title, string content)
+        public async Task<bool> ShowOkCancel(string content, string title = "确认")
         {
             MessageType = MessageTypes.OkCancel;
-            return await Show(title, content) == true;
+            return await ShowAsync(title, content) == true;
         }
-        public async Task<bool?> ShowYesNoCancel(string title, string content)
+        public async Task<bool?> ShowYesNoCancel(string content, string title = "确认")
         {
             MessageType = MessageTypes.YesNoCancel;
-            return await Show(title, content);
+            return await ShowAsync(title, content);
         }
-        private async Task<bool?> Show(string title, string content)
+        private async Task<bool?> ShowAsync(string title, string content)
         {
-            Title = title;
-            Content = content;
-            IsVisible = true;
+            Show(title, content);
             MessageAwaiter = new();
             bool? result = await MessageAwaiter;
             IsVisible = false;
             return result;
+        }
+        private void Show(string title, string content)
+        {
+            Title = title;
+            Content = content;
+            IsVisible = true;
         }
 
         public enum MessageTypes

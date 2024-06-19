@@ -10,7 +10,7 @@ namespace Core.Abstract.Model
     public abstract class HeadModelBase<TChild> : DictionaryModelBase, IHeadModel<TChild>
     {
         private ObservableCollection<TChild> children = [];
-        public ObservableCollection<TChild> Children
+        public virtual ObservableCollection<TChild> Children
         {
             get => children;
             set => SetProperty(ref children, value);

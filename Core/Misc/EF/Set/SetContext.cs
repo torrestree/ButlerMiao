@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Core.EF.Set
+namespace Core.Misc.EF.Set
 {
     public class SetContext(SetContextConfig setContextConfig) : DbContext
     {

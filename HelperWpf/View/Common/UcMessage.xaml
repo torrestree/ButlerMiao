@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="HelperWpf.View.Common.UcMessage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:vm="clr-namespace:Core.ViewModel.Common;assembly=Core"
+    xmlns:local="clr-namespace:HelperWpf.View.Common"
+    mc:Ignorable="d" 
+    d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=vm:VmMessage}"
+    Background="#49000000" Visibility="{Binding Path=IsVisible, Converter={StaticResource Boolean2VisibilityConverter}}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HelperWpf;component/BasicSources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <x:Array x:Key="TitleStyles" Type="Style">
+                <Style TargetType="Border" BasedOn="{StaticResource BorderTipInfo}"/>
+                <Style TargetType="Border" BasedOn="{StaticResource BorderTipSuccess}"/>
+                <Style TargetType="Border" BasedOn="{StaticResource BorderTipWarning}"/>
+                <Style TargetType="Border" BasedOn="{StaticResource BorderTipDanger}"/>
+                <Style TargetType="Border" BasedOn="{StaticResource BorderTipPrimary}"/>
+            </x:Array>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Height="300" Width="500" Background="White" CornerRadius="10">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Style="{Binding Path=MessageType, Converter={StaticResource MessageType2TitleStyleConverter}, ConverterParameter={StaticResource TitleStyles}}">
+                <TextBlock Text="{Binding Path=Title}" d:Text="标题" VerticalAlignment="Center" FontSize="20"/>
+            </Border>
+
+            <TextBox Text="{Binding Path=Content}" d:Text="消息内容" VerticalContentAlignment="Top" TextWrapping="Wrap" Margin="0, 10" Padding="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.Row="1"/>
+
+            <ProgressBar IsIndeterminate="{Binding Path=IsIndeterminate}" d:IsIndeterminate="True" Maximum="{Binding Path=ProgressMax}" Value="{Binding Path=Progress}" Grid.Row="2" Visibility="{Binding Path=IsProgressVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+
+            <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="3">
+                <hc:ButtonGroup.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+                        <Setter Property="Width" Value="100"/>
+                    </Style>
+                </hc:ButtonGroup.Resources>
+                
+                <Button Content="是" Command="{Binding Path=CmdYes}" Visibility="{Binding Path=IsCmdYesVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="否" Command="{Binding Path=CmdNo}" Visibility="{Binding Path=IsCmdNoVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="确定" Command="{Binding Path=CmdOk}" Visibility="{Binding Path=IsCmdOkVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="取消" Command="{Binding Path=CmdCancel}" Visibility="{Binding Path=IsCmdCancelVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+            </hc:ButtonGroup>
+        </Grid>
+    </Border>
+</UserControl>

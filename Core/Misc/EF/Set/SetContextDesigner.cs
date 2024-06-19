@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace Core.EF.Set
+namespace Core.Misc.EF.Set
 {
     internal class SetContextDesigner : IDesignTimeDbContextFactory<SetContext>
     {

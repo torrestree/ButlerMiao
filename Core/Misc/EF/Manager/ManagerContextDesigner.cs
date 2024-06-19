@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace Core.EF.Manager
+namespace Core.Misc.EF.Manager
 {
     internal class ManagerContextDesigner : IDesignTimeDbContextFactory<ManagerContext>
     {

@@ -1,6 +1,4 @@
-﻿using Core.Misc;
-
-namespace Core.EF.Set
+﻿namespace Core.Misc.EF.Set
 {
     public class SetContextConfig : ContextConfigBase
     {
@@ -9,7 +7,7 @@ namespace Core.EF.Set
             Server = server;
             User = user;
             Password = password;
-            Database = string.Format(GlobalVariablesCore.EF.SetDatabaseFormat, index);
+            Database = string.Format(GlobalVariables.SetDatabaseFormat, GlobalVariables.ProjectName, index);
         }
     }
 }
