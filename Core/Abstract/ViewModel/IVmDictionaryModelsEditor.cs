@@ -14,14 +14,14 @@ namespace Core.Abstract.ViewModel
         TModel? SelectedItem { get; set; }
         bool IsEditing { get; set; }
         AsyncRelayCommand CmdRefresh { get; set; }
-        AsyncRelayCommand CmdEdit { get; set; }
+        RelayCommand CmdEdit { get; set; }
         RelayCommand CmdAdd { get; set; }
         RelayCommand CmdRemove { get; set; }
         AsyncRelayCommand CmdSave { get; set; }
         AsyncRelayCommand CmdSaveAndQuit { get; set; }
 
         Task Refresh();
-        Task Edit();
+        void Edit();
         void Add();
         void Remove();
         Task Save();
@@ -32,7 +32,16 @@ namespace Core.Abstract.ViewModel
         where TContext : DbContext
         where TModel : class, IDictionaryModel
     {
-        protected TContext Context { get; set; } = null!;
+        private TContext context = null!;
+        protected TContext Context
+        {
+            get => context;
+            set
+            {
+                context = value;
+                CmdEdit.NotifyCanExecuteChanged();
+            }
+        }
 
         private ObservableCollection<TModel> items = [];
         public ObservableCollection<TModel> Items
@@ -52,28 +61,37 @@ namespace Core.Abstract.ViewModel
         public bool IsEditing
         {
             get => isEditing;
-            set => SetProperty(ref isEditing, value);
+            set
+            {
+                SetProperty(ref isEditing, value);
+                CmdEdit.NotifyCanExecuteChanged();
+                CmdAdd.NotifyCanExecuteChanged();
+                CmdRemove.NotifyCanExecuteChanged();
+                CmdSave.NotifyCanExecuteChanged();
+                CmdSaveAndQuit.NotifyCanExecuteChanged();
+            }
         }
 
         public AsyncRelayCommand CmdRefresh { get; set; }
 
-        public AsyncRelayCommand CmdEdit { get; set; }
+        public RelayCommand CmdEdit { get; set; }
 
         public RelayCommand CmdAdd { get; set; }
 
-        public RelayCommand CmdRemove { get;set; }
+        public RelayCommand CmdRemove { get; set; }
 
         public AsyncRelayCommand CmdSave { get; set; }
 
         public AsyncRelayCommand CmdSaveAndQuit { get; set; }
-
-        protected VmDictionaryModelsEditor()
+        
+        public VmDictionaryModelsEditor()
         {
             CmdRefresh = new(Refresh);
             CmdEdit = new(Edit, CanEdit);
             CmdAdd = new(Add, CanAdd);
             CmdRemove = new(Remove, CanRemove);
             CmdSave = new(Save, CanSave);
+            CmdSaveAndQuit = new(SaveAndQuit, CanSaveAndQuit);
         }
 
         public async Task Refresh()
@@ -83,13 +101,13 @@ namespace Core.Abstract.ViewModel
             Items = Context.Set<TModel>().Local.ToObservableCollection();
         }
 
-        public async Task Edit()
+        public void Edit()
         {
             IsEditing = true;
         }
         private bool CanEdit()
         {
-            return !IsEditing;
+            return Context != null && !IsEditing;
         }
 
         public void Add()

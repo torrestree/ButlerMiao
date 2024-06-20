@@ -4,10 +4,37 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:ServerWpf.View.Common"
+    xmlns:vm="clr-namespace:CoreServer.ViewModel.Common;assembly=CoreServer"
     mc:Ignorable="d" 
-    d:DesignHeight="1080" d:DesignWidth="1920">
-    <Grid>
-            
-    </Grid>
+    d:DesignHeight="1080" d:DesignWidth="1920" d:DataContext="{d:DesignInstance Type=vm:VmSetInfosEditor}">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="CvsItems" Source="{Binding Path=Items}"/>
+    </UserControl.Resources>
+    
+    <DockPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Content="刷新" Command="{Binding Path=CmdRefresh}"/>
+            <Button Content="编辑" Command="{Binding Path=CmdEdit}"/>
+            <Button Content="添加" Command="{Binding Path=CmdAdd}"/>
+            <Button Content="删除" Command="{Binding Path=CmdRemove}"/>
+            <Button Content="保存" Command="{Binding Path=CmdSave}"/>
+        </ToolBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource CvsItems}}" SelectedItem="{Binding Path=SelectedItem}" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
+                    <DataGridTextColumn Header="名称" Binding="{Binding Path=Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
 </UserControl>

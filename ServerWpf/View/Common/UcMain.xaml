@@ -18,7 +18,7 @@
 
         <hc:TabControl ShowContextMenu="False" IsAnimationEnabled="True">
             <hc:TabItem Header="账套管理">
-                
+                <local:UcSetInfosEditor/>
             </hc:TabItem>
         </hc:TabControl>
     </DockPanel>
