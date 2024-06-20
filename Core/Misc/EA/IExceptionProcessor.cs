@@ -2,6 +2,6 @@
 {
     public interface IExceptionProcessor
     {
-        string Process(Exception ex);
+        bool Process(Exception ex, out string message);
     }
 }

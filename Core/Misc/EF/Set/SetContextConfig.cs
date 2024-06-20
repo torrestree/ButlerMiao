@@ -7,7 +7,7 @@
             Server = server;
             User = user;
             Password = password;
-            Database = string.Format(GlobalVariables.SetDatabaseFormat, GlobalVariables.ProjectName, index);
+            Database = string.Format(GlobalVariables.SetDatabaseFormat, index);
         }
     }
 }

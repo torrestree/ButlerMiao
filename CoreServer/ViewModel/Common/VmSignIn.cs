@@ -9,7 +9,7 @@ namespace CoreServer.ViewModel.Common
 {
 	public class VmSignIn : VmBase
 	{
-		private bool isVisible;
+		private bool isVisible = true;
 		public bool IsVisible
 		{
 			get => isVisible;
@@ -60,7 +60,7 @@ namespace CoreServer.ViewModel.Common
 
 		public async Task SignIn()
 		{
-			await VmMessage.ShowWaiting("登录中");
+			await VmMessage.ShowWaiting("登录中").ConfigureAwait(false);
 			ManagerContextConfig managerContextConfig = DIService.ServiceProvider.GetRequiredService<ManagerContextConfig>();
 			managerContextConfig.Set(Server, User, Password);
 			ManagerContext managerContext = DIService.ServiceProvider.GetRequiredService<ManagerContext>();
@@ -72,14 +72,14 @@ namespace CoreServer.ViewModel.Common
 					if (managerContext.Database.HasPendingModelChanges())
 					{
 						VmMessage.Content = "正在迁移服务数据";
-						await managerContext.Database.MigrateAsync();
+						await managerContext.Database.MigrateAsync().ConfigureAwait(false);
 					}
 					IsVisible = false;
 				}
 				else
 				{
 					VmMessage.Content = "正在创建服务数据";
-					await managerContext.Database.EnsureCreatedAsync();
+					await managerContext.Database.EnsureCreatedAsync().ConfigureAwait(false);
 					IsVisible = false;
 				}
 			}

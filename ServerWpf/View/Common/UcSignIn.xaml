@@ -23,7 +23,7 @@
             <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
@@ -33,14 +33,14 @@
                 </StackPanel>
 
                 <hc:ElementGroup Grid.Row="1" Orientation="Vertical" Margin="0,50">
-                    <hc:TextBox Text="{Binding Path=Server, UpdateSourceTrigger=PropertyChanged}" hc:InfoElement.Placeholder="数据库地址"/>
-                    <hc:TextBox Text="{Binding Path=User,UpdateSourceTrigger=PropertyChanged}" hc:InfoElement.Placeholder="数据库账号"/>
-                    <hc:PasswordBox x:Name="PwdBox" hc:InfoElement.Placeholder="数据库密码" PasswordBox.PasswordChanged="PwdBox_PasswordChanged"/>
+                    <hc:TextBox Text="{Binding Path=Server, UpdateSourceTrigger=PropertyChanged}" hc:InfoElement.Placeholder="数据库地址" TabIndex="0"/>
+                    <hc:TextBox Text="{Binding Path=User,UpdateSourceTrigger=PropertyChanged}" hc:InfoElement.Placeholder="数据库账号" TabIndex="1"/>
+                    <hc:PasswordBox x:Name="PwdBox" hc:InfoElement.Placeholder="数据库密码" PasswordBox.PasswordChanged="PwdBox_PasswordChanged" TabIndex="2"/>
                 </hc:ElementGroup>
 
                 <hc:ButtonGroup Grid.Row="2">
-                    <Button Content="登录" Command="{Binding Path=CmdSignIn}" IsDefault="True"/>
-                    <Button Content="退出" Command="{Binding Path=CmdQuit}"/>
+                    <Button Content="登录" Command="{Binding Path=CmdSignIn}" IsTabStop="False" IsDefault="True"/>
+                    <Button Content="退出" Command="{Binding Path=CmdQuit}" IsTabStop="False"/>
                 </hc:ButtonGroup>
             </Grid>
         </Border>

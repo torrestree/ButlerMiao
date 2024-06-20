@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Misc.DI;
+using CoreServer.ViewModel.Common;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ServerWpf.View.Common
 {
@@ -20,14 +11,18 @@ namespace ServerWpf.View.Common
     /// </summary>
     public partial class UcSignIn : UserControl
     {
+        private VmSignIn VmSignIn { get; set; }
+
         public UcSignIn()
         {
             InitializeComponent();
+            VmSignIn = DIService.ServiceProvider.GetRequiredService<VmSignIn>();
+            DataContext = VmSignIn;
         }
 
         private void PwdBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
+            VmSignIn.Password = PwdBox.Password;
         }
     }
 }

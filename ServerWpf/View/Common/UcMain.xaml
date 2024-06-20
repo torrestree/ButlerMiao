@@ -4,10 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:ServerWpf.View.Common"
+    xmlns:vm="clr-namespace:CoreServer.ViewModel.Common;assembly=CoreServer"
     mc:Ignorable="d" 
-    d:DesignHeight="1080" d:DesignWidth="1920">
-    <Grid>
-            
-    </Grid>
+    d:DesignHeight="1080" d:DesignWidth="1920" d:DataContext="{d:DesignInstance Type=vm:VmMain}">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="本地IP："/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <hc:TabControl ShowContextMenu="False" IsAnimationEnabled="True">
+            <hc:TabItem Header="账套管理">
+                
+            </hc:TabItem>
+        </hc:TabControl>
+    </DockPanel>
 </UserControl>

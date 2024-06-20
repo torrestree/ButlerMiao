@@ -8,17 +8,36 @@ namespace Core.Misc.EA
 
         protected ExceptionAnalyzerCore()
         {
-            Processors.Add(EFExceptionProcessor.Source, new EFExceptionProcessor());
+            Processors.Add(MySqlConnectorProcessor.Source, new MySqlConnectorProcessor());
         }
         public string Analyze(Exception ex)
         {
-            if (Processors.SingleOrDefault(t => t.Key == ex.Source) is KeyValuePair<string, IExceptionProcessor> pair)
+            if (ex.Source == null)
             {
-                return pair.Value.Process(ex);
+                return OutputUnknown(ex);
             }
             else
             {
-                return $"未知错误\n{ex.ToString}";
+                if (Processors.TryGetValue(ex.Source, out IExceptionProcessor? value))
+                {
+                    if (value.Process(ex, out string message))
+                    {
+                        return message;
+                    }
+                    else
+                    {
+                        return OutputUnknown(ex);
+                    }
+                }
+                else
+                {
+                    return OutputUnknown(ex);
+                }
+            }
+
+            static string OutputUnknown(Exception ex)
+            {
+                return $"未知错误\n错误源：{ex.Source}\n错误代号：{ex.HResult}\n错误内容：{ex.Message}";
             }
         }
     }

@@ -1,18 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Core.Abstract.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Model.Sys
 {
-	public class SetInfo : ObservableObject
+	public class SetInfo : DictionaryModelBase
 	{
-		private int index;
-		[Key]
-		public int Index
-		{
-			get => index;
-			set => SetProperty(ref index, value);
-		}
-
 		private string name = string.Empty;
 		public string Name
 		{

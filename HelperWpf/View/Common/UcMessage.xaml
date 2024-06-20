@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:Core.ViewModel.Common;assembly=Core"
     xmlns:local="clr-namespace:HelperWpf.View.Common"
     mc:Ignorable="d" 
-    d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=vm:VmMessage}"
+    d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=vm:VmMessage}" d:Visibility="Visible"
     Background="#49000000" Visibility="{Binding Path=IsVisible, Converter={StaticResource Boolean2VisibilityConverter}}">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -44,16 +44,10 @@
             <ProgressBar IsIndeterminate="{Binding Path=IsIndeterminate}" d:IsIndeterminate="True" Maximum="{Binding Path=ProgressMax}" Value="{Binding Path=Progress}" Grid.Row="2" Visibility="{Binding Path=IsProgressVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
 
             <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="3">
-                <hc:ButtonGroup.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
-                        <Setter Property="Width" Value="100"/>
-                    </Style>
-                </hc:ButtonGroup.Resources>
-                
-                <Button Content="是" Command="{Binding Path=CmdYes}" Visibility="{Binding Path=IsCmdYesVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
-                <Button Content="否" Command="{Binding Path=CmdNo}" Visibility="{Binding Path=IsCmdNoVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
-                <Button Content="确定" Command="{Binding Path=CmdOk}" Visibility="{Binding Path=IsCmdOkVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
-                <Button Content="取消" Command="{Binding Path=CmdCancel}" Visibility="{Binding Path=IsCmdCancelVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="是" Command="{Binding Path=CmdYes}" Width="100" Visibility="{Binding Path=IsCmdYesVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="否" Command="{Binding Path=CmdNo}" Width="100" Visibility="{Binding Path=IsCmdNoVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="确定" Command="{Binding Path=CmdOk}" Width="100" Visibility="{Binding Path=IsCmdOkVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <Button Content="取消" Command="{Binding Path=CmdCancel}" Width="100" Visibility="{Binding Path=IsCmdCancelVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
             </hc:ButtonGroup>
         </Grid>
     </Border>
