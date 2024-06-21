@@ -3,6 +3,7 @@ using CoreServer.Misc.DI;
 using CoreServer.ViewModel.Common;
 using Microsoft.Extensions.DependencyInjection;
 using ServerWpf.Misc.EA;
+using ServerWpf.View.Common;
 
 namespace ServerWpf.Misc.DI
 {
@@ -12,6 +13,7 @@ namespace ServerWpf.Misc.DI
         {
             base.RegisterMisc(services);
             services
+                .AddSingleton<MainWindow>()
                 .AddSingleton<IExceptionAnalyzer, ExceptionAnalyzer>()
                 ;
         }
@@ -20,6 +22,14 @@ namespace ServerWpf.Misc.DI
             base.RegisterViewModel(services);
             services
                 .AddSingleton<VmSetInfosEditor>()
+                ;
+        }
+        protected override void RegisterView(IServiceCollection services)
+        {
+            base.RegisterView(services);
+            services
+                .AddTransient<UcSignIn>()
+                .AddTransient<UcMain>()
                 ;
         }
     }

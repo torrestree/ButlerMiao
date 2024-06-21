@@ -10,7 +10,7 @@
     mc:Ignorable="d" 
     d:DesignHeight="1080" d:DesignWidth="1920" d:DataContext="{d:DesignInstance Type=vm:VmSetInfosEditor}">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="CvsItems" Source="{Binding Path=Items}"/>
+        <CollectionViewSource x:Key="CvsItems" Source="{Binding Path=Items}" />
     </UserControl.Resources>
     
     <DockPanel>
@@ -29,12 +29,16 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource CvsItems}}" SelectedItem="{Binding Path=SelectedItem}" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
-                    <DataGridTextColumn Header="名称" Binding="{Binding Path=Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DockPanel Grid.Column="0">
+                <TextBox DockPanel.Dock="Bottom" Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}" hc:InfoElement.Placeholder="模糊搜索" Margin="0,10,0,0"/>
+
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Items}" SelectedItem="{Binding Path=SelectedItem}" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
+                        <DataGridTextColumn Header="名称" Binding="{Binding Path=Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
         </Grid>
     </DockPanel>
 </UserControl>

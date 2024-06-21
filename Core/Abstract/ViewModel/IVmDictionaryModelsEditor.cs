@@ -10,6 +10,7 @@ namespace Core.Abstract.ViewModel
     public interface IVmDictionaryModelsEditor<TModel>
         where TModel : IDictionaryModel
     {
+        string SearchString { get; set; }
         ObservableCollection<TModel> Items { get; set; }
         TModel? SelectedItem { get; set; }
         bool IsEditing { get; set; }
@@ -40,6 +41,28 @@ namespace Core.Abstract.ViewModel
             {
                 context = value;
                 CmdEdit.NotifyCanExecuteChanged();
+            }
+        }
+
+        private string searchString = string.Empty;
+        public string SearchString
+        {
+            get => searchString;
+            set
+            {
+                SetProperty(ref searchString, value);
+                UpdateItems();
+            }
+        }
+
+        private ObservableCollection<TModel> dataSource = [];
+        protected ObservableCollection<TModel> DataSource
+        {
+            get => dataSource;
+            set
+            {
+                SetProperty(ref dataSource, value);
+                UpdateItems();
             }
         }
 
@@ -83,7 +106,7 @@ namespace Core.Abstract.ViewModel
         public AsyncRelayCommand CmdSave { get; set; }
 
         public AsyncRelayCommand CmdSaveAndQuit { get; set; }
-        
+
         public VmDictionaryModelsEditor()
         {
             CmdRefresh = new(Refresh);
@@ -98,7 +121,7 @@ namespace Core.Abstract.ViewModel
         {
             Context = DIService.ServiceProvider.GetRequiredService<TContext>();
             await Context.Set<TModel>().LoadAsync();
-            Items = Context.Set<TModel>().Local.ToObservableCollection();
+            DataSource = Context.Set<TModel>().Local.ToObservableCollection();
         }
 
         public void Edit()
@@ -113,8 +136,9 @@ namespace Core.Abstract.ViewModel
         public void Add()
         {
             TModel newItem = DIService.ServiceProvider.GetRequiredService<TModel>();
-            Context.Set<TModel>().Add(newItem);
+            DataSource.Add(newItem);
             SelectedItem = newItem;
+            Items.Add(newItem);
         }
         private bool CanAdd()
         {
@@ -125,8 +149,9 @@ namespace Core.Abstract.ViewModel
         {
             if (SelectedItem != null)
             {
-                Context.Set<TModel>().Remove(SelectedItem);
+                DataSource.Remove(SelectedItem);
                 SelectedItem = null;
+                UpdateItems();
             }
         }
         private bool CanRemove()
@@ -151,6 +176,22 @@ namespace Core.Abstract.ViewModel
         private bool CanSaveAndQuit()
         {
             return IsEditing;
+        }
+
+        private void UpdateItems()
+        {
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                Items = new(DataSource);
+            }
+            else
+            {
+                Items = new(DataSource.Where(t => Search(t, SearchString)));
+            }
+        }
+        protected virtual bool Search(TModel item, string value)
+        {
+            return item.Id.ToString().Contains(value);
         }
     }
 }

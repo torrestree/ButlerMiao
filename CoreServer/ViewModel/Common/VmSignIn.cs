@@ -79,7 +79,7 @@ namespace CoreServer.ViewModel.Common
 				else
 				{
 					VmMessage.Content = "正在创建服务数据";
-					await managerContext.Database.EnsureCreatedAsync().ConfigureAwait(false);
+					await managerContext.Database.MigrateAsync().ConfigureAwait(false);
 					IsVisible = false;
 				}
 			}

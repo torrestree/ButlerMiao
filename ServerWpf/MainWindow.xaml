@@ -9,8 +9,4 @@
     xmlns:v="clr-namespace:ServerWpf.View.Common"
     mc:Ignorable="d"
     Style="{StaticResource MainWindowStyle}" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <v:UcMain/>
-        <v:UcSignIn/>
-    </Grid>
 </hc:GlowWindow>
