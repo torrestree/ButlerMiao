@@ -5,11 +5,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:vm="clr-namespace:Core.ViewModel.Common;assembly=Core"
+    xmlns:ivm="clr-namespace:Core.ViewModel.Common;assembly=Core"
     xmlns:local="clr-namespace:HelperWpf.View.Common"
     mc:Ignorable="d" 
-    d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=vm:VmMessage}"
-    Background="#49000000">
+    d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=ivm:IVmMessage}"
+    Background="#49000000" Visibility="{Binding Path=IsVisible, Converter={StaticResource Boolean2VisibilityConverter}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,7 +39,7 @@
                 <TextBlock Text="{Binding Path=Title}" d:Text="标题" VerticalAlignment="Center" FontSize="20"/>
             </Border>
 
-            <TextBox Text="{Binding Path=Content}" d:Text="消息内容" VerticalContentAlignment="Top" TextWrapping="Wrap" Margin="0, 10" Padding="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.Row="1"/>
+            <TextBox Text="{Binding Path=Message}" d:Text="消息内容" VerticalContentAlignment="Top" TextWrapping="Wrap" Margin="0, 10" Padding="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.Row="1"/>
 
             <ProgressBar IsIndeterminate="{Binding Path=IsIndeterminate}" d:IsIndeterminate="True" Maximum="{Binding Path=ProgressMax}" Value="{Binding Path=Progress}" Grid.Row="2" Visibility="{Binding Path=IsProgressVisible, Converter={StaticResource Boolean2VisibilityConverter}}"/>
 

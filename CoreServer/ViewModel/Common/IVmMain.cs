@@ -2,31 +2,12 @@
 {
     public interface IVmMain
     {
-        AppStates AppState { get; set; }
+        void SwitchAppState(AppStates appState);
 
         public enum AppStates
         {
             SignIn,
             Working,
         }
-    }
-
-    public abstract class VmMain : IVmMain
-    {
-        private IVmMain.AppStates appState;
-        public IVmMain.AppStates AppState
-        {
-            get => appState;
-            set
-            {
-                if (appState != value)
-                {
-                    appState = value;
-                    AppStateSetter(appState);
-                }
-            }
-        }
-
-        protected abstract void AppStateSetter(IVmMain.AppStates appState);
     }
 }

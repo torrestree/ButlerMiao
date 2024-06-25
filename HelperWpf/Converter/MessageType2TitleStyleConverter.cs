@@ -1,4 +1,4 @@
-﻿using Core.ViewModel.Common;
+﻿using HelperWpf.ViewModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;

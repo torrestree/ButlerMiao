@@ -1,24 +1,26 @@
-﻿using System.Text;
+﻿using Core.Misc.DI;
+using CoreServer.ViewModel.Common;
+using HandyControl.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using ServerWpf.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ServerWpf
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : GlowWindow
     {
+        private VmMain VmMain { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            VmMain = (VmMain)DIService.ServiceProvider.GetRequiredService<IVmMain>();
+            VmMain.MainWindow = this;
+            DataContext = VmMain;
+            VmMain.SwitchAppState(IVmMain.AppStates.SignIn);
         }
     }
 }
